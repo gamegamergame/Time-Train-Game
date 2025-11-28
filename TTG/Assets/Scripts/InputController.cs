@@ -7,7 +7,10 @@ using UnityEngine.LowLevel;
 public class InputController : MonoBehaviour
 {
     [SerializeField]
-    PlayerScript pScript;
+    MovementController pScript;
+
+    [SerializeField]
+    PlayerAttacks pAtkScript;
 
     [SerializeField]
     GameManager manager;
@@ -21,7 +24,10 @@ public class InputController : MonoBehaviour
         //reminder to code switching number when you switch weapons
         //if (manager)
         //number represents what weapon you are holding and boolean tells method if the player is the one firing
-        manager.SpawnBullet(true, 1);
+        //manager.SpawnBullet(true, 1);
+
+        pAtkScript.LightAttack();
+
     }
     public void OnDodge(InputAction.CallbackContext context)
     {

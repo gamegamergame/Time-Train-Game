@@ -11,7 +11,7 @@ public class GameUI : MonoBehaviour
     public Image bulletTimeBar;
 
     [SerializeField]
-    PlayerScript pScript;
+    MovementController pScript;
 
     [SerializeField]
     GameManager manager;

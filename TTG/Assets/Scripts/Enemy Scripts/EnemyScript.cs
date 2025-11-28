@@ -27,7 +27,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     int health = 1;
 
-    //public int Health { get { return health; } }
+    public int Health { get { return health; } }
 
     [SerializeField]
     BoxCollider2D eCollider;
@@ -73,5 +73,10 @@ public class EnemyScript : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+    }
+
+    public void HitByLightAttack()
+    {
+        print("HIT!");
     }
 }
