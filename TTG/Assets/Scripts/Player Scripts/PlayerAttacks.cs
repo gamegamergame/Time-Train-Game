@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,31 +67,50 @@ public class PlayerAttacks : MonoBehaviour
     /// <summary>
     /// A light attack is a simple punch that does damage to an enemy
     /// </summary>
-    public void LightAttack()
+    public void Attack(string attackType)
     {
         if (canAtk)
         {
             //attackHurtBox = Instantiate(gameObject.AddComponent<BoxCollider2D>(), attackHurtboxPos);
             attackHurtBox = gameObject.AddComponent<BoxCollider2D>();
 
-            attackHurtBox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
 
             //attackHurtBox.IsTouchingLayers(LayerMask.NameToLayer("Enemy"));
 
-            Collider2D[] firstEnemyHit = new Collider2D[10];
+            Collider2D[] enemiesHit = new Collider2D[10];
 
             ContactFilter2D contactFilter = new ContactFilter2D();
             contactFilter.layerMask = LayerMask.NameToLayer("Enemy");
 
-            attackHurtBox.Overlap(contactFilter, firstEnemyHit);
-
-            foreach (Collider2D enemyCol in firstEnemyHit)
+            if (attackType == "Light")
             {
-                if (enemyCol != null)
+                attackHurtBox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
+
+                attackHurtBox.Overlap(contactFilter, enemiesHit);
+
+                foreach (Collider2D enemyCol in enemiesHit)
                 {
-                    enemyCol.GetComponentInParent<EnemyScript>().HitByLightAttack();
+                    if (enemyCol != null)
+                    {
+                        enemyCol.GetComponentInParent<EnemyScript>().HitByLightAttack();
+                    }
                 }
             }
+            else if (attackType == "Heavy")
+            {
+                attackHurtBox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
+
+                attackHurtBox.Overlap(contactFilter, enemiesHit);
+
+                foreach (Collider2D enemyCol in enemiesHit)
+                {
+                    if (enemyCol != null)
+                    {
+                        //enemyCol.GetComponentInParent<EnemyScript>().HitByLightAttack();
+                    }
+                }
+            }
+
 
             Destroy(attackHurtBox);
             print("light attack");
