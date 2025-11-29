@@ -26,7 +26,7 @@ public class InputController : MonoBehaviour
         //number represents what weapon you are holding and boolean tells method if the player is the one firing
         //manager.SpawnBullet(true, 1);
 
-        pAtkScript.LightAttack();
+        pAtkScript.Attack("Light");
 
     }
     public void OnDodge(InputAction.CallbackContext context)
