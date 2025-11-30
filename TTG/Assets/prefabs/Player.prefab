@@ -187,8 +187,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 50
+  m_Mass: 10
+  m_LinearDamping: 20
   m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5faf45b453583d74bac82262eb8c42e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 350
+  speed: 1000
   health: 3
   cursorPos: {fileID: 0}
   manager: {fileID: 0}
@@ -385,11 +385,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2fbab284172ca44b00f43219dd94db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttacks
-  attackHurtBox: {fileID: 2218180007572300401}
+  attackHurtbox: {fileID: 2218180007572300401}
   attackHurtboxPos: {fileID: 6312495526352753679}
-  lightHurtboxWidth: 0.2
-  lightHurtboxHeight: 0.1
+  lightHurtboxWidth: 0.5
+  lightHurtboxHeight: 2
   lightAtkDelay: 0.25
-  heavyHurtboxWidth: 0
-  heavyHurtboxHeight: 0
+  heavyHurtboxWidth: 0.4
+  heavyHurtboxHeight: 1
   heavyAtkDelay: 0.4

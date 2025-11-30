@@ -6,8 +6,10 @@ public class PlayerAttacks : MonoBehaviour
 {
     private bool canAtk = true;
 
+    private GameObject player;
+
     [SerializeField]
-    private BoxCollider2D attackHurtBox;
+    private BoxCollider2D attackHurtbox;
 
     [SerializeField]
     private Transform attackHurtboxPos;
@@ -16,14 +18,14 @@ public class PlayerAttacks : MonoBehaviour
     [Header("Light Attack")]
     //Light Attack hurt box
     [SerializeField]
-    float lightHurtboxWidth;
+    private float lightHurtboxWidth;
 
     [SerializeField]
-    float lightHurtboxHeight;
+    private float lightHurtboxHeight;
 
     //delay between attacks
     [SerializeField]
-    float lightAtkDelay = 0.25f;
+    private float lightAtkDelay = 0.25f;
     private float lightAtkStart;
 
     [Space]
@@ -32,14 +34,14 @@ public class PlayerAttacks : MonoBehaviour
 
     //Heavy Attack hurt box
     [SerializeField]
-    float heavyHurtboxWidth;
+    private float heavyHurtboxWidth;
 
     [SerializeField]
-    float heavyHurtboxHeight;
+    private float heavyHurtboxHeight;
 
     //delay between attacks
     [SerializeField]
-    float heavyAtkDelay = 0.4f;
+    private float heavyAtkDelay = 0.4f;
     private float heavyAtkStart;
 
 
@@ -47,6 +49,7 @@ public class PlayerAttacks : MonoBehaviour
     void Start()
     {
         lightAtkStart = lightAtkDelay;
+        player = gameObject;
     }
 
     // Update is called once per frame
@@ -80,9 +83,16 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (canAtk)
         {
+
+
+            //TODO: Fix the collider position/size so that attacks cannot be activated from behind
+
+
+
+
             //Setting up the hurtbox
-            attackHurtBox.enabled = true;
-            attackHurtBox.transform.rotation = gameObject.transform.rotation;
+            attackHurtbox.enabled = true;
+            attackHurtbox.transform.rotation = gameObject.transform.rotation;
 
             List<Collider2D> enemiesHit = new List<Collider2D>();
 
@@ -90,19 +100,19 @@ public class PlayerAttacks : MonoBehaviour
             switch (attackType)
             {
                 case "Light":
-                    attackHurtBox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
+                    attackHurtbox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
                     print("Light attack");
 
                     break;
 
                 case "Heavy":
-                    attackHurtBox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
+                    attackHurtbox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
                     print("Heavy attack");
                     break;
             }
 
             //Checking if the attack has hit an enemy, if so call that enemy's hit function
-            attackHurtBox.Overlap(enemiesHit);
+            attackHurtbox.Overlap(enemiesHit);
 
 
             //TODO: Remember to leave room for the animation to finish before dealing damage
@@ -112,20 +122,11 @@ public class PlayerAttacks : MonoBehaviour
             {
                 if (enemyCol.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 {
-                    switch (attackType)
-                    {
-                        case "Light":
-                            enemyCol.GetComponentInParent<EnemyScript>().HitByLightAttack();
-                            break;
-
-                        case "Heavy":
-                            enemyCol.GetComponentInParent<EnemyScript>().HitByHeavyAttack();
-                            break;
-                    }
+                    enemyCol.GetComponentInParent<EnemyScript>().HitByAttack(attackType, player.GetComponent<MovementController>().LookDirection);
                 }
             }
 
-            attackHurtBox.enabled = false;
+            attackHurtbox.enabled = false;
             canAtk = false;
         }
     }

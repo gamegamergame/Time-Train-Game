@@ -4,6 +4,7 @@ public abstract class EnemyScript : MonoBehaviour
 {
     protected GameManager manager;
 
+    protected GameObject player;
     protected Transform playerPos;
 
     /*//Enemy Movement
@@ -22,11 +23,12 @@ public abstract class EnemyScript : MonoBehaviour
     public float Speed { get; set; }
 
 
-    [Header("Heavy Attack Beheavior")]
+    [Header("Attack Behavior")]
+    [SerializeField]
+    protected float lightAtkForce;
     [SerializeField]
     protected float heavyAtkForce;
-    [SerializeField]
-    protected float heavyAtkDownTime;
+
 
 
     protected Rigidbody2D enemyRB;
@@ -36,8 +38,8 @@ public abstract class EnemyScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemyRB = GetComponent<Rigidbody2D>();
-        playerPos = GameObject.Find("player").transform;
+        player = GameObject.Find("player");
+        playerPos = player.transform;
 
         manager = GameObject.Find("GameManager").gameObject.GetComponent<GameManager>();
 
@@ -60,6 +62,5 @@ public abstract class EnemyScript : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }*/
 
-    abstract public void HitByLightAttack();
-    abstract public void HitByHeavyAttack();
+    abstract public void HitByAttack(string attackType, Vector2 playerDir);
 }

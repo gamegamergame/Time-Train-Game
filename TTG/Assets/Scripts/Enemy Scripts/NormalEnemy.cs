@@ -5,36 +5,39 @@ public class NormalEnemy : EnemyScript
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //heavyAtkForce = 5f;
 
+        enemyRB = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        enemyRB.AddForce(new Vector2(100,0));
     }
 
-    public override void HitByLightAttack()
+    public override void HitByAttack(string attackType, Vector2 playerDir)
     {
-        print("Light HIT!");
-        health--;
-
         //TODO: Add code to freeze the enemy momentarily, play particle effect, flash the sprite, or anything else needed
 
+        switch (attackType)
+        {
+            case "Light":
+                print("Light HIT!");
+                health--;
 
+                //TODO: This should stop the enemy for moving for something like a quarter of a second
+                enemyRB.AddForce(playerDir * lightAtkForce);
 
-    }
+                break;
 
-    public override void HitByHeavyAttack()
-    {
-        print("Heavy HIT!");
-        health--;
+            case "Heavy":
+                print("Heavy HIT!");
+                health--;
 
-        //TODO: add force to make the enemy fall backwards
-        //enemyRB.AddForce();
-        //enemyRB.Slide(-enemyRB.linearVelocity * heavyAtkForce, heavyAtkDownTime, new Rigidbody2D.SlideMovement());
+                enemyRB.AddForce(playerDir * heavyAtkForce);
 
-        //TODO: Add code to freeze the enemy momentarily, play particle effect, flash the sprite, or anything else needed
-
+                break;
+        }
     }
 }

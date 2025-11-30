@@ -8,8 +8,11 @@ public class MovementController : MonoBehaviour
 
     //Player Movement
     Vector3 objectPosition;
-    Vector3 direction = Vector3.zero;
+    Vector2 lookDirection = Vector3.zero;
+    Vector3 moveDirection = Vector3.zero;
     Vector3 velocity = Vector3.zero;
+
+    public Vector2 LookDirection {  get { return lookDirection; } }
 
     Rigidbody2D rb;
 
@@ -101,24 +104,24 @@ public class MovementController : MonoBehaviour
     void SetLookDirection()
     {
         //source: https://www.youtube.com/watch?v=149teLQMmOQ
-        Vector2 dir = cursorPos.position - transform.position;
+        lookDirection = cursorPos.position - transform.position;
 
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
     // makes the player move a certain direction using WASD
-    public void SetMoveDirection(Vector2 newDirection)
+    public void SetMoveDirection(Vector2 newMoveDirection)
     {
         //direction = newDirection.normalized;
 
-        if (direction != Vector3.zero)
+        if (moveDirection != Vector3.zero)
         {
             //transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
         }
         //velocity = newDirection * speed * Time.deltaTime;
-        velocity = newDirection * speed;
+        velocity = newMoveDirection * speed;
     }
 
     //activates the dodge which will move you quickly while making you harder to hit
@@ -144,6 +147,6 @@ public class MovementController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position + direction * 2);
+        Gizmos.DrawLine(transform.position, transform.position + moveDirection * 2);
     }
 }
