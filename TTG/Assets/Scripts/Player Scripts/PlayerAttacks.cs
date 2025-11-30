@@ -6,11 +6,11 @@ public class PlayerAttacks : MonoBehaviour
 {
     private bool canAtk = true;
 
-
+    [SerializeField]
     private BoxCollider2D attackHurtBox;
 
     [SerializeField]
-    Transform attackHurtboxPos;
+    private Transform attackHurtboxPos;
 
 
     [Header("Light Attack")]
@@ -40,7 +40,6 @@ public class PlayerAttacks : MonoBehaviour
     //delay between attacks
     [SerializeField]
     float heavyAtkDelay = 0.4f;
-
     private float heavyAtkStart;
 
 
@@ -53,67 +52,80 @@ public class PlayerAttacks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Checking if the player can attack by seeing if both attack delays are finished
         if (lightAtkStart <= 0)
         {
             canAtk = true;
             lightAtkStart = lightAtkDelay;
         }
+        if (heavyAtkStart <= 0)
+        {
+            canAtk = true;
+            heavyAtkStart = heavyAtkDelay;
+        }
+
         if (!canAtk)
         {
             lightAtkStart -= Time.deltaTime;
+            heavyAtkStart -= Time.deltaTime;
         }
     }
 
     /// <summary>
-    /// A light attack is a simple punch that does damage to an enemy
+    ///  Enables and resizes the hurtbox based on the attack the player is doing
+    ///  Checks for any enemies overlapping the hurtbox, then calls the appropriate attack functions when an enemy is hit
     /// </summary>
+    /// <param name="attackType"></param>
     public void Attack(string attackType)
     {
         if (canAtk)
         {
-            //attackHurtBox = Instantiate(gameObject.AddComponent<BoxCollider2D>(), attackHurtboxPos);
-            attackHurtBox = gameObject.AddComponent<BoxCollider2D>();
+            //Setting up the hurtbox
+            attackHurtBox.enabled = true;
+            attackHurtBox.transform.rotation = gameObject.transform.rotation;
 
+            List<Collider2D> enemiesHit = new List<Collider2D>();
 
-            //attackHurtBox.IsTouchingLayers(LayerMask.NameToLayer("Enemy"));
-
-            Collider2D[] enemiesHit = new Collider2D[10];
-
-            ContactFilter2D contactFilter = new ContactFilter2D();
-            contactFilter.layerMask = LayerMask.NameToLayer("Enemy");
-
-            if (attackType == "Light")
+            //Changing the size of the hurtbox based on the attack
+            switch (attackType)
             {
-                attackHurtBox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
+                case "Light":
+                    attackHurtBox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
+                    print("Light attack");
 
-                attackHurtBox.Overlap(contactFilter, enemiesHit);
+                    break;
 
-                foreach (Collider2D enemyCol in enemiesHit)
+                case "Heavy":
+                    attackHurtBox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
+                    print("Heavy attack");
+                    break;
+            }
+
+            //Checking if the attack has hit an enemy, if so call that enemy's hit function
+            attackHurtBox.Overlap(enemiesHit);
+
+
+            //TODO: Remember to leave room for the animation to finish before dealing damage
+
+
+            foreach (Collider2D enemyCol in enemiesHit)
+            {
+                if (enemyCol.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 {
-                    if (enemyCol != null)
+                    switch (attackType)
                     {
-                        enemyCol.GetComponentInParent<EnemyScript>().HitByLightAttack();
+                        case "Light":
+                            enemyCol.GetComponentInParent<EnemyScript>().HitByLightAttack();
+                            break;
+
+                        case "Heavy":
+                            enemyCol.GetComponentInParent<EnemyScript>().HitByHeavyAttack();
+                            break;
                     }
                 }
             }
-            else if (attackType == "Heavy")
-            {
-                attackHurtBox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
 
-                attackHurtBox.Overlap(contactFilter, enemiesHit);
-
-                foreach (Collider2D enemyCol in enemiesHit)
-                {
-                    if (enemyCol != null)
-                    {
-                        //enemyCol.GetComponentInParent<EnemyScript>().HitByLightAttack();
-                    }
-                }
-            }
-
-
-            Destroy(attackHurtBox);
-            print("light attack");
+            attackHurtBox.enabled = false;
             canAtk = false;
         }
     }
@@ -123,6 +135,6 @@ public class PlayerAttacks : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(attackHurtboxPos.position, new Vector2(lightHurtboxWidth, lightHurtboxHeight));
         Gizmos.color = Color.darkRed;
-        //Gizmos.DrawWireCube(attackHurtboxPos.position, new Vector2(lightHurtboxWidth, lightHurtboxHeight));
+        Gizmos.DrawWireCube(attackHurtboxPos.position, new Vector2(heavyHurtboxWidth, heavyHurtboxHeight));
     }
 }

@@ -1,71 +1,56 @@
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public abstract class EnemyScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    protected GameManager manager;
 
+    protected Transform playerPos;
 
-    //Stuff neded for movement
+    /*//Enemy Movement
     Vector2 objectPosition;
     Vector2 direction = Vector3.zero;
     Vector2 velocity = Vector3.zero;
-
-    Rigidbody2D rb;
-
-    //public Vector3 Direction { get { return direction; } }
+    //public Vector3 Direction { get { return direction; } }*/
 
     [SerializeField]
-    float speed = 40.0f;
+    protected int health;
+    public int Health { get; set; }
+
 
     [SerializeField]
-    float dSpeed = 50.0f;
+    protected float speed;
+    public float Speed { get; set; }
 
 
-    Transform playerPos;
-
-    //stuff needed for health
+    [Header("Heavy Attack Beheavior")]
     [SerializeField]
-    int health = 1;
-
-    public int Health { get { return health; } }
-
+    protected float heavyAtkForce;
     [SerializeField]
-    BoxCollider2D eCollider;
-
-    //List<BoxCollider2D> damage;
-
-    [SerializeField]
-    GameManager manager;
+    protected float heavyAtkDownTime;
 
 
-    //TODO: Implement states
-    public enum eState
-    {
-        stoping, moving, shooting, reloading
-    }
+    protected Rigidbody2D enemyRB;
+    protected BoxCollider2D enemyCollider;
+    
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-
+        enemyRB = GetComponent<Rigidbody2D>();
         playerPos = GameObject.Find("player").transform;
 
+        manager = GameObject.Find("GameManager").gameObject.GetComponent<GameManager>();
+
+        enemyCollider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        SetLookDirection();
-
-        // if the enemy is within a certain distance and isnt out of bullets and has a line of sight with the player start shooting
-        //if ()
-        //{
-
-        //}
 
     }
 
-    void SetLookDirection()
+    /*void SetLookDirection()
     {
         //source: https://www.youtube.com/watch?v=149teLQMmOQ
         Vector2 dir = playerPos.position - transform.position;
@@ -73,10 +58,8 @@ public class EnemyScript : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-    }
+    }*/
 
-    public void HitByLightAttack()
-    {
-        print("HIT!");
-    }
+    abstract public void HitByLightAttack();
+    abstract public void HitByHeavyAttack();
 }

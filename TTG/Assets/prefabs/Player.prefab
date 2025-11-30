@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6312495526352753679}
+  - component: {fileID: 2218180007572300401}
   m_Layer: 7
-  m_Name: EnemyHurtboxSpawn
+  m_Name: EnemyHurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,6 +32,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8191704391636707905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2218180007572300401
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5860198249432593947}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.048625708, y: -0.05835098}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.30812407, y: 0.26088798}
+  m_EdgeRadius: 0
 --- !u!1 &9055101378674959239
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,8 +91,8 @@ GameObject:
   - component: {fileID: 7863492470812440823}
   - component: {fileID: 5523269869970266440}
   - component: {fileID: 6059595690630747844}
-  - component: {fileID: 4873711839051537487}
   - component: {fileID: 8560987425119579913}
+  - component: {fileID: 4873711839051537487}
   - component: {fileID: 3286791905941438258}
   m_Layer: 7
   m_Name: Player
@@ -262,7 +309,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8560987425119579913}
         m_TargetAssemblyTypeName: InputController, Assembly-CSharp
-        m_MethodName: OnShoot
+        m_MethodName: OnLightAtk
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -278,7 +325,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8560987425119579913}
         m_TargetAssemblyTypeName: InputController, Assembly-CSharp
-        m_MethodName: OnDodge
+        m_MethodName: OnHeavyAtk
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -288,46 +335,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: dae2a889-d601-4623-8300-085ec1db528c
-    m_ActionName: 'Player/Dodge[/Keyboard/shift]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8560987425119579913}
-        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
-        m_MethodName: OnReload
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 6d302b53-d978-4365-a62a-3e7080e1bb9f
-    m_ActionName: 'Player/Reload[/Keyboard/r]'
+    m_ActionId: a504a2f4-9039-494e-b6e6-1438a769ba03
+    m_ActionName: 'Player/Heavy Attack[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &4873711839051537487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9055101378674959239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5faf45b453583d74bac82262eb8c42e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 350
-  dSpeed: 500
-  health: 3
-  cursorPos: {fileID: 0}
-  manager: {fileID: 0}
 --- !u!114 &8560987425119579913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,6 +357,22 @@ MonoBehaviour:
   pScript: {fileID: 4873711839051537487}
   pAtkScript: {fileID: 3286791905941438258}
   manager: {fileID: 0}
+--- !u!114 &4873711839051537487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055101378674959239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5faf45b453583d74bac82262eb8c42e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 350
+  health: 3
+  cursorPos: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!114 &3286791905941438258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2fbab284172ca44b00f43219dd94db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttacks
+  attackHurtBox: {fileID: 2218180007572300401}
   attackHurtboxPos: {fileID: 6312495526352753679}
   lightHurtboxWidth: 0.2
   lightHurtboxHeight: 0.1

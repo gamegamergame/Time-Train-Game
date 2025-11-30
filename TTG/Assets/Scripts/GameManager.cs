@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     //player bullet prefab and transform for the spawn point of the bullets in front of the player
-
+    /*
     [SerializeField]
     GameObject bullet;
 
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public int PlayerBullets {  get { return playerBullets; } }
 
     bool isReloading = false;
-
+    */
 
     //bullet time
     [SerializeField]
@@ -53,10 +53,7 @@ public class GameManager : MonoBehaviour
 
     //float tScale;
 
-
-
-    //NOT SURE IF BELOW IS NEEDED
-
+    /*
     //list of all of the player's bullets
     List<GameObject> pBulletsList = new List<GameObject>();
 
@@ -64,14 +61,14 @@ public class GameManager : MonoBehaviour
     List<GameObject> eBulletsList = new List<GameObject>();
 
     public List<GameObject> EnemyBulletsList { get { return eBulletsList; } }
-
+    */
 
 
     // Start is called before the first frame update
     void Start()
     {
         //gun is loaded on spawn
-        canFire = true;
+        //canFire = true;
 
         //stores time scale value so game can know when to reset it when BT is over
         //tScale = Time.timeScale;
@@ -82,7 +79,7 @@ public class GameManager : MonoBehaviour
     {
         //REMINDER to make this work for each weapon
         //setting fire rate for the gun using timer
-        if (canFire == false)
+        /*if (canFire == false)
         {
             fireRateTimer += Time.deltaTime;
             if (fireRateTimer >= fireRateCooldown)
@@ -94,6 +91,7 @@ public class GameManager : MonoBehaviour
 
         //if mag is empty reload automatically
         if (playerBullets <= 0) {canFire = false; StartCoroutine(Reload());}
+        */
 
         //starts bullet time cooldown
         //source: https://www.youtube.com/watch?v=0VGosgaoTsw
@@ -122,6 +120,7 @@ public class GameManager : MonoBehaviour
 
     //spawns players bullets depending on what weapon is in hand using players rotation and position
     //REMINDER spawns enemies bullets ...
+    /*
     public void SpawnBullet(bool isPlayerBullet, int weaponEquipped)
     {
         if (isPlayerBullet) 
@@ -168,7 +167,7 @@ public class GameManager : MonoBehaviour
             isReloading = false;
         }
     }
-
+    */
     //slows down the game by a certain factor while still allowing the player to aim at normal speed
     //has a cooldown
     public void BulletTime()

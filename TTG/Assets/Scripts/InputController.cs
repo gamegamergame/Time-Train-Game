@@ -19,7 +19,7 @@ public class InputController : MonoBehaviour
     {
         pScript.SetMoveDirection(context.ReadValue<Vector2>());
     }
-    public void OnShoot(InputAction.CallbackContext context)
+    public void OnLightAtk(InputAction.CallbackContext context)
     {
         //reminder to code switching number when you switch weapons
         //if (manager)
@@ -29,13 +29,9 @@ public class InputController : MonoBehaviour
         pAtkScript.Attack("Light");
 
     }
-    public void OnDodge(InputAction.CallbackContext context)
+    public void OnHeavyAtk(InputAction.CallbackContext context)
     {
-        pScript.Dodge();
-    }
-    public void OnReload(InputAction.CallbackContext context)
-    {
-        StartCoroutine(manager.Reload());
+        pAtkScript.Attack("Heavy");
     }
     public void OnBT(InputAction.CallbackContext context)
     {

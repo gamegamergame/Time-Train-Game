@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "PlayerControls",
     "maps": [
         {
@@ -15,16 +16,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Bullet Time",
-                    "type": "Button",
-                    "id": "d782a139-76bb-4302-a2dd-9108a81b2c4d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Fire",
+                    "name": "Light Attack",
                     "type": "Button",
                     "id": "961193ff-9d30-44f5-bc75-e03b1a2a3344",
                     "expectedControlType": "",
@@ -33,18 +25,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dodge",
+                    "name": "Heavy Attack",
                     "type": "Button",
-                    "id": "dae2a889-d601-4623-8300-085ec1db528c",
+                    "id": "a504a2f4-9039-494e-b6e6-1438a769ba03",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Reload",
+                    "name": "Bullet Time",
                     "type": "Button",
-                    "id": "6d302b53-d978-4365-a62a-3e7080e1bb9f",
+                    "id": "d782a139-76bb-4302-a2dd-9108a81b2c4d",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -180,7 +172,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Fire",
+                    "action": "Light Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -191,29 +183,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Fire",
+                    "action": "Light Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "382bb1d1-da10-42c4-984a-a886a0c2bbd9",
-                    "path": "<Keyboard>/shift",
+                    "id": "d5cbb1a5-e084-4e04-a6e6-75a465f550d9",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Dodge",
+                    "groups": "",
+                    "action": "Heavy Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "d89f0cf3-1638-4d9c-a1a2-ab9c7b5d30fd",
-                    "path": "<Keyboard>/r",
+                    "id": "0831e341-ed6b-46e8-9afa-93252b3d5080",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Reload",
+                    "groups": "",
+                    "action": "Heavy Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

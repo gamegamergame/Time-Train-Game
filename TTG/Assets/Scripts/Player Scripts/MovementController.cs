@@ -18,8 +18,8 @@ public class MovementController : MonoBehaviour
     [SerializeField]
     float speed;
 
-    [SerializeField]
-    float dSpeed;
+    //[SerializeField]
+    //float dSpeed;
 
 
     //stuff needed for health
@@ -39,12 +39,12 @@ public class MovementController : MonoBehaviour
     [SerializeField]
     GameManager manager;
 
-    int bulletsInGun = 6;
+    //int bulletsInGun = 6;
 
     //TODO: Implement states
     public enum pState
     {
-        moving, shooting, reloading, dodging
+        moving, attacking, dodging
     }
 
     pState playerState;
@@ -125,7 +125,7 @@ public class MovementController : MonoBehaviour
     public void Dodge()
     {
         //reminder to fix dodging and make it more smooth and an actual dodge
-        objectPosition += direction * dSpeed * Time.deltaTime;
+        //objectPosition += direction * dSpeed * Time.deltaTime;
 
         //playerState = pState.dodging;
 

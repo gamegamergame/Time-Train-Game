@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameUI : MonoBehaviour
 {
     public TextMeshProUGUI healthText;
-    public TextMeshProUGUI ammoText;
+    //public TextMeshProUGUI ammoText;
     public Image bulletTimeBar;
 
     [SerializeField]
@@ -28,7 +28,7 @@ public class GameUI : MonoBehaviour
     public void TextUpdate()
     {
          healthText.text = "HP: " + pScript.Health.ToString();
-         ammoText.text = "Ammo: " + manager.PlayerBullets.ToString();
+         //ammoText.text = "Ammo: " + manager.PlayerBullets.ToString();
 
         //ADD UI FOR BULLET TIME COOLDOWN BAR
     }
