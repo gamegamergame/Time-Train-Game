@@ -37,4 +37,9 @@ public class InputController : MonoBehaviour
     {
         manager.BulletTime();
     }
+
+    public void OnPickup(InputAction.CallbackContext context)
+    {
+        //pAtkScript.Throw(ThrownItems.bottle);
+    }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttacks : MonoBehaviour
@@ -13,6 +14,8 @@ public class PlayerAttacks : MonoBehaviour
 
     [SerializeField]
     private Transform attackHurtboxPos;
+
+    private bool isHoldingItem = false;
 
 
     [Header("Light Attack")]
@@ -72,6 +75,11 @@ public class PlayerAttacks : MonoBehaviour
             lightAtkStart -= Time.deltaTime;
             heavyAtkStart -= Time.deltaTime;
         }
+
+        //if (player.GetComponent<MovementController>().itemHeld)
+        //{
+
+        //}
     }
 
     /// <summary>
@@ -83,7 +91,11 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (canAtk)
         {
-
+            if (isHoldingItem)
+            {
+                Throw(attackType);
+                return;
+            }
 
             //TODO: Fix the collider position/size so that attacks cannot be activated from behind
 
@@ -130,6 +142,22 @@ public class PlayerAttacks : MonoBehaviour
             canAtk = false;
         }
     }
+
+    public void Throw(string attackType)
+    {
+        switch (attackType)
+        {
+            case "Light":
+                print("Light Throw");
+                
+                break;
+
+            case "Heavy":
+                print("Heavy Throw");
+                break;
+        }
+    }
+
 
     private void OnDrawGizmosSelected()
     {
