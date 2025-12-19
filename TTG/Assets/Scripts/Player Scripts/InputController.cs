@@ -7,7 +7,10 @@ using UnityEngine.LowLevel;
 public class InputController : MonoBehaviour
 {
     [SerializeField]
-    MovementController pScript;
+    PlayerManager playerManager;
+
+    [SerializeField]
+    MovementController movementController;
 
     [SerializeField]
     PlayerAttacks pAtkScript;
@@ -17,7 +20,7 @@ public class InputController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        pScript.SetMoveDirection(context.ReadValue<Vector2>());
+        movementController.SetMoveDirection(context.ReadValue<Vector2>());
     }
     public void OnLightAtk(InputAction.CallbackContext context)
     {
@@ -40,6 +43,6 @@ public class InputController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext context)
     {
-        //pAtkScript.Throw(ThrownItems.bottle);
+        playerManager.TryPickupDropItem();
     }
 }

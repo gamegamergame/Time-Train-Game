@@ -24,16 +24,6 @@ public class MovementController : MonoBehaviour
     //[SerializeField]
     //float dSpeed;
 
-
-    //stuff needed for health
-    [SerializeField]
-    int health = 3;
-
-    public int Health {  get { return health; } }
-
-    //[SerializeField]
-    BoxCollider2D pCollider;
-
     //List<BoxCollider2D> damage;
 
     [SerializeField]
@@ -58,7 +48,6 @@ public class MovementController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        pCollider = GetComponent<BoxCollider2D>();
         //objectPosition = transform.position;
     }
 
@@ -82,13 +71,6 @@ public class MovementController : MonoBehaviour
                 //bullet.GetComponent<BoxCollider2D>().IsTouching(pCollider)) 
             //{ health--; }
         //}
-        
-        //if you are dead than take you to game over screen
-        if (health <= 0)
-        {
-            //game over scene
-            Debug.Log("You are dead");
-        }
 
 
         //transform.position = objectPosition;
@@ -133,16 +115,6 @@ public class MovementController : MonoBehaviour
         //playerState = pState.dodging;
 
         //pCollider.size = pCollider.size / 2;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //Player loses health when hit by a bullet and bullet despawns
-        if (pCollider.IsTouchingLayers(LayerMask.GetMask("Bullets")))
-        {
-            health--;
-            Destroy(collision.gameObject);
-        }
     }
 
     private void OnDrawGizmos()

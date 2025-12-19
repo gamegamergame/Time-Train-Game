@@ -11,7 +11,7 @@ public class GameUI : MonoBehaviour
     public Image bulletTimeBar;
 
     [SerializeField]
-    MovementController pScript;
+    PlayerManager playerManager;
 
     [SerializeField]
     GameManager manager;
@@ -27,7 +27,7 @@ public class GameUI : MonoBehaviour
     //updates UI text to display 
     public void TextUpdate()
     {
-         healthText.text = "HP: " + pScript.Health.ToString();
+         //healthText.text = "HP: " + playerManager.Health.ToString();
          //ammoText.text = "Ammo: " + manager.PlayerBullets.ToString();
 
         //ADD UI FOR BULLET TIME COOLDOWN BAR

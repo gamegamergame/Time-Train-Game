@@ -38,6 +38,11 @@ public class NormalEnemy : EnemyScript
                 enemyRB.AddForce(playerDir * heavyAtkForce);
 
                 break;
+
+            case "Light Throw":
+                print("light throw hit");
+
+                break;
         }
     }
 }

@@ -15,7 +15,15 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField]
     private Transform attackHurtboxPos;
 
+
+    //Throwable item attacks
     private bool isHoldingItem = false;
+
+    public bool IsHoldingItem {  get { return isHoldingItem; } set { isHoldingItem = value; } }
+
+    private ThrowableItem item;
+
+    public ThrowableItem ThrowableItem { get { return item; } set { item = value; } }
 
 
     [Header("Light Attack")]
@@ -53,6 +61,7 @@ public class PlayerAttacks : MonoBehaviour
     {
         lightAtkStart = lightAtkDelay;
         player = gameObject;
+        //ThrowableItem = GetComponentInChildren<ThrowableItem>();
     }
 
     // Update is called once per frame
@@ -76,15 +85,19 @@ public class PlayerAttacks : MonoBehaviour
             heavyAtkStart -= Time.deltaTime;
         }
 
-        //if (player.GetComponent<MovementController>().itemHeld)
-        //{
 
-        //}
+        //making sure to update the position of the throwable item as it follows the player
+        if (isHoldingItem)
+        {
+            item.gameObject.transform.position = gameObject.transform.position;
+            item.gameObject.transform.rotation = gameObject.transform.rotation;
+        }
     }
 
     /// <summary>
     ///  Enables and resizes the hurtbox based on the attack the player is doing
     ///  Checks for any enemies overlapping the hurtbox, then calls the appropriate attack functions when an enemy is hit
+    ///  If the player is holding a throwable item and attacks this will call the Throw function
     /// </summary>
     /// <param name="attackType"></param>
     public void Attack(string attackType)
@@ -93,7 +106,7 @@ public class PlayerAttacks : MonoBehaviour
         {
             if (isHoldingItem)
             {
-                Throw(attackType);
+                ThrowItem(attackType);
                 return;
             }
 
@@ -143,19 +156,24 @@ public class PlayerAttacks : MonoBehaviour
         }
     }
 
-    public void Throw(string attackType)
+    /// <summary>
+    /// The function for the throwable item attacks
+    /// </summary>
+    /// <param name="attackType"></param>
+    public void ThrowItem(string attackType)
     {
         switch (attackType)
         {
             case "Light":
                 print("Light Throw");
-                
+                item.Throw();
                 break;
 
             case "Heavy":
                 print("Heavy Throw");
                 break;
         }
+        isHoldingItem = false;
     }
 
 
