@@ -60,8 +60,9 @@ public class PlayerAttacks : MonoBehaviour
     void Start()
     {
         lightAtkStart = lightAtkDelay;
+        heavyAtkStart = heavyAtkDelay;
+
         player = gameObject;
-        //ThrowableItem = GetComponentInChildren<ThrowableItem>();
     }
 
     // Update is called once per frame
@@ -171,6 +172,7 @@ public class PlayerAttacks : MonoBehaviour
 
             case "Heavy":
                 print("Heavy Throw");
+                item.Throw();
                 break;
         }
         isHoldingItem = false;

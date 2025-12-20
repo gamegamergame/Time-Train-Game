@@ -45,10 +45,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 447
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -407,6 +407,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a504a2f4-9039-494e-b6e6-1438a769ba03
     m_ActionName: 'Player/Heavy Attack[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9d4ab396-e9a6-42bc-9bf7-16665904e8bd
+    m_ActionName: 'Player/Pickup[/Keyboard/f]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -424,7 +428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc1459936da2e345b427768013593a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pScript: {fileID: 4873711839051537487}
+  playerManager: {fileID: 0}
+  movementController: {fileID: 0}
   pAtkScript: {fileID: 3286791905941438258}
   manager: {fileID: 0}
 --- !u!114 &4873711839051537487
