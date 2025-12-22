@@ -13,7 +13,7 @@ public class NormalEnemy : EnemyScript
     // Update is called once per frame
     void Update()
     {
-        enemyRB.AddForce(new Vector2(100,0));
+        //enemyRB.AddForce(new Vector2(100,0));
     }
 
     public override void HitByAttack(string attackType, Vector2 playerDir)

@@ -9,11 +9,12 @@ public class PlayerAttacks : MonoBehaviour
 
     private GameObject player;
 
-    [SerializeField]
-    private BoxCollider2D attackHurtbox;
 
     [SerializeField]
-    private Transform attackHurtboxPos;
+    private BoxCollider2D lightAttackHurtbox;
+
+    [SerializeField]
+    private BoxCollider2D heavyAttackHurtbox;
 
 
     //Throwable item attacks
@@ -34,6 +35,9 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField]
     private float lightHurtboxHeight;
 
+    [SerializeField]
+    private Vector2 lightHurtboxOffset;
+
     //delay between attacks
     [SerializeField]
     private float lightAtkDelay = 0.25f;
@@ -50,6 +54,9 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField]
     private float heavyHurtboxHeight;
 
+    [SerializeField]
+    private Vector2 heavyHurtboxOffset;
+
     //delay between attacks
     [SerializeField]
     private float heavyAtkDelay = 0.4f;
@@ -61,6 +68,9 @@ public class PlayerAttacks : MonoBehaviour
     {
         lightAtkStart = lightAtkDelay;
         heavyAtkStart = heavyAtkDelay;
+
+        lightAttackHurtbox.offset = lightHurtboxOffset;
+        heavyAttackHurtbox.offset = heavyHurtboxOffset;
 
         player = gameObject;
     }
@@ -117,8 +127,12 @@ public class PlayerAttacks : MonoBehaviour
 
 
             //Setting up the hurtbox
-            attackHurtbox.enabled = true;
-            attackHurtbox.transform.rotation = gameObject.transform.rotation;
+            lightAttackHurtbox.enabled = true;
+            lightAttackHurtbox.transform.rotation = gameObject.transform.rotation;
+            
+            heavyAttackHurtbox.enabled = true;
+            heavyAttackHurtbox.transform.rotation = gameObject.transform.rotation;
+
 
             List<Collider2D> enemiesHit = new List<Collider2D>();
 
@@ -126,19 +140,24 @@ public class PlayerAttacks : MonoBehaviour
             switch (attackType)
             {
                 case "Light":
-                    attackHurtbox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
+                    lightAttackHurtbox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
                     print("Light attack");
+
+                    //Checking if the attack has hit an enemy, if so call that enemy's hit function
+                    lightAttackHurtbox.Overlap(enemiesHit);
 
                     break;
 
                 case "Heavy":
-                    attackHurtbox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
+                    heavyAttackHurtbox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
                     print("Heavy attack");
+
+                    //Checking if the attack has hit an enemy, if so call that enemy's hit function
+                    heavyAttackHurtbox.Overlap(enemiesHit);
                     break;
             }
 
-            //Checking if the attack has hit an enemy, if so call that enemy's hit function
-            attackHurtbox.Overlap(enemiesHit);
+
 
 
             //TODO: Remember to leave room for the animation to finish before dealing damage
@@ -152,7 +171,9 @@ public class PlayerAttacks : MonoBehaviour
                 }
             }
 
-            attackHurtbox.enabled = false;
+            enemiesHit.Clear();
+            lightAttackHurtbox.enabled = false;
+            heavyAttackHurtbox.enabled = false;
             canAtk = false;
         }
     }
@@ -181,9 +202,24 @@ public class PlayerAttacks : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        //Light Attack Hurtbox
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(attackHurtboxPos.position, new Vector2(lightHurtboxWidth, lightHurtboxHeight));
+        Gizmos.DrawWireCube(new Vector3(
+            lightAttackHurtbox.transform.position.x + lightHurtboxOffset.x, 
+            lightAttackHurtbox.transform.position.y + lightHurtboxOffset.y, 
+            lightAttackHurtbox.transform.position.z), 
+            
+            new Vector2(lightHurtboxWidth, lightHurtboxHeight));
+
+        //Heavy Attack Hurtbox
         Gizmos.color = Color.darkRed;
-        Gizmos.DrawWireCube(attackHurtboxPos.position, new Vector2(heavyHurtboxWidth, heavyHurtboxHeight));
+        Gizmos.DrawWireCube(new Vector3(
+            heavyAttackHurtbox.transform.position.x + heavyHurtboxOffset.x,
+            heavyAttackHurtbox.transform.position.y + heavyHurtboxOffset.y,
+            heavyAttackHurtbox.transform.position.z),
+
+            new Vector2(heavyHurtboxWidth, heavyHurtboxHeight));
+
+        //due to how the DrawWireCube function works the attack previews do not rotate with the player
     }
 }
