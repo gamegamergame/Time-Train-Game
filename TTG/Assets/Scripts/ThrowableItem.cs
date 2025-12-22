@@ -6,7 +6,7 @@ public class ThrowableItem : MonoBehaviour
     private float throwForce;
 
     [SerializeField]
-    private float throwSpin;
+    private float throwSpinForce;
 
     private Rigidbody2D rb;
 
@@ -31,7 +31,7 @@ public class ThrowableItem : MonoBehaviour
         gameObject.transform.parent = null;
 
         rb.AddForce(transform.up * throwForce, ForceMode2D.Impulse);
-        rb.AddTorque(throwSpin);
+        rb.AddTorque(throwSpinForce);
 
         isThrown = true;
     }

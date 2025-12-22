@@ -1227,8 +1227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6c95b70668f0443870bb74d4ebb6c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  throwForce: 5
-  throwSpin: 1
+  throwForce: 20
+  throwSpinForce: 0
 --- !u!70 &1088833770
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1473,8 +1473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6c95b70668f0443870bb74d4ebb6c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  throwForce: 5
-  throwSpin: 1
+  throwForce: 20
+  throwSpinForce: 0
 --- !u!70 &1151762835
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

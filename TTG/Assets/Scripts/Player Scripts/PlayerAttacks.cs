@@ -121,7 +121,6 @@ public class PlayerAttacks : MonoBehaviour
                 return;
             }
 
-            //TODO: Fix the collider position/size so that attacks cannot be activated from behind
 
 
 
