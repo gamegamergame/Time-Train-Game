@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttacks : MonoBehaviour
@@ -22,6 +20,7 @@ public class PlayerAttacks : MonoBehaviour
 
     public bool IsHoldingItem {  get { return isHoldingItem; } set { isHoldingItem = value; } }
 
+
     private ThrowableItem item;
 
     public ThrowableItem ThrowableItem { get { return item; } set { item = value; } }
@@ -38,9 +37,9 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField]
     private Vector2 lightHurtboxOffset;
 
-    //delay between attacks
+    //Cooldown between attacks
     [SerializeField]
-    private float lightAtkDelay = 0.25f;
+    private float lightAtkCooldown = 0.25f;
     private float lightAtkStart;
 
     [Space]
@@ -57,17 +56,17 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField]
     private Vector2 heavyHurtboxOffset;
 
-    //delay between attacks
+    //Cooldown between attacks
     [SerializeField]
-    private float heavyAtkDelay = 0.4f;
+    private float heavyAtkCooldown = 0.4f;
     private float heavyAtkStart;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        lightAtkStart = lightAtkDelay;
-        heavyAtkStart = heavyAtkDelay;
+        lightAtkStart = lightAtkCooldown;
+        heavyAtkStart = heavyAtkCooldown;
 
         lightAttackHurtbox.offset = lightHurtboxOffset;
         heavyAttackHurtbox.offset = heavyHurtboxOffset;
@@ -78,18 +77,13 @@ public class PlayerAttacks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Checking if the player can attack by seeing if both attack delays are finished
-        if (lightAtkStart <= 0)
+        //Checking if the player can attack by seeing if both attack cooldowns are finished
+        if (lightAtkStart <= 0 && heavyAtkStart <= 0)
         {
             canAtk = true;
-            lightAtkStart = lightAtkDelay;
+            lightAtkStart = lightAtkCooldown;
+            heavyAtkStart = heavyAtkCooldown;
         }
-        if (heavyAtkStart <= 0)
-        {
-            canAtk = true;
-            heavyAtkStart = heavyAtkDelay;
-        }
-
         if (!canAtk)
         {
             lightAtkStart -= Time.deltaTime;
@@ -117,87 +111,72 @@ public class PlayerAttacks : MonoBehaviour
         {
             if (isHoldingItem)
             {
-                ThrowItem(attackType);
-                return;
-            }
-
-
-
-
-
-            //Setting up the hurtbox
-            lightAttackHurtbox.enabled = true;
-            lightAttackHurtbox.transform.rotation = gameObject.transform.rotation;
-            
-            heavyAttackHurtbox.enabled = true;
-            heavyAttackHurtbox.transform.rotation = gameObject.transform.rotation;
-
-
-            List<Collider2D> enemiesHit = new List<Collider2D>();
-
-            //Changing the size of the hurtbox based on the attack
-            switch (attackType)
-            {
-                case "Light":
-                    lightAttackHurtbox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
-                    print("Light attack");
-
-                    //Checking if the attack has hit an enemy, if so call that enemy's hit function
-                    lightAttackHurtbox.Overlap(enemiesHit);
-
-                    break;
-
-                case "Heavy":
-                    heavyAttackHurtbox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
-                    print("Heavy attack");
-
-                    //Checking if the attack has hit an enemy, if so call that enemy's hit function
-                    heavyAttackHurtbox.Overlap(enemiesHit);
-                    break;
-            }
-
-
-
-
-            //TODO: Remember to leave room for the animation to finish before dealing damage
-
-
-            foreach (Collider2D enemyCol in enemiesHit)
-            {
-                if (enemyCol.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                switch (attackType)
                 {
-                    enemyCol.GetComponentInParent<EnemyScript>().HitByAttack(attackType, player.GetComponent<MovementController>().LookDirection);
+                    case "Light":
+                        print("Light Throw");
+                        item.Throw();
+                        break;
+
+                    case "Heavy":
+                        print("Heavy Throw");
+                        item.Throw();
+                        break;
                 }
+                isHoldingItem = false;
+            }
+            else
+            {
+                //Setting up the hurtbox
+                lightAttackHurtbox.enabled = true;
+                lightAttackHurtbox.transform.rotation = gameObject.transform.rotation;
+
+                heavyAttackHurtbox.enabled = true;
+                heavyAttackHurtbox.transform.rotation = gameObject.transform.rotation;
+
+
+                List<Collider2D> enemiesHit = new List<Collider2D>();
+
+                //Changing the size of the hurtbox based on the attack
+                switch (attackType)
+                {
+                    case "Light":
+                        lightAttackHurtbox.size = new Vector2(lightHurtboxWidth, lightHurtboxHeight);
+                        print("Light attack");
+
+                        //Checking if the attack has hit an enemy, if so call that enemy's hit function
+                        lightAttackHurtbox.Overlap(enemiesHit);
+                        break;
+
+                    case "Heavy":
+                        heavyAttackHurtbox.size = new Vector2(heavyHurtboxWidth, heavyHurtboxHeight);
+                        print("Heavy attack");
+
+                        //Checking if the attack has hit an enemy, if so call that enemy's hit function
+                        heavyAttackHurtbox.Overlap(enemiesHit);
+                        break;
+                }
+
+
+                //TODO: Remember to leave room for the animation to finish before dealing damage
+
+
+                foreach (Collider2D enemyCol in enemiesHit)
+                {
+                    if (enemyCol.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                    {
+                        enemyCol.GetComponentInParent<EnemyScript>().HitByAttack(attackType, player.GetComponent<MovementController>().LookDirection);
+                    }
+                }
+                enemiesHit.Clear();
             }
 
-            enemiesHit.Clear();
+
             lightAttackHurtbox.enabled = false;
             heavyAttackHurtbox.enabled = false;
             canAtk = false;
         }
     }
-
-    /// <summary>
-    /// The function for the throwable item attacks
-    /// </summary>
-    /// <param name="attackType"></param>
-    public void ThrowItem(string attackType)
-    {
-        switch (attackType)
-        {
-            case "Light":
-                print("Light Throw");
-                item.Throw();
-                break;
-
-            case "Heavy":
-                print("Heavy Throw");
-                item.Throw();
-                break;
-        }
-        isHoldingItem = false;
-    }
-
 
     private void OnDrawGizmosSelected()
     {

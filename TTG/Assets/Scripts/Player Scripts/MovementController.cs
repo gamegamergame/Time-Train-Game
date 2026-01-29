@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MovementController : MonoBehaviour
 {
 
     //Player Movement
-    Vector3 objectPosition;
+    //Vector3 objectPosition;
     Vector2 lookDirection = Vector3.zero;
     Vector3 moveDirection = Vector3.zero;
     Vector3 velocity = Vector3.zero;
@@ -16,31 +13,14 @@ public class MovementController : MonoBehaviour
 
     Rigidbody2D rb;
 
-    //public Vector3 Direction { get { return direction; } }
-
     [SerializeField]
     float speed;
-
-    //[SerializeField]
-    //float dSpeed;
-
-    //List<BoxCollider2D> damage;
 
     [SerializeField]
     Transform cursorPos;
 
     [SerializeField]
     GameManager manager;
-
-    //int bulletsInGun = 6;
-
-    //TODO: Implement states
-    public enum pState
-    {
-        moving, attacking, dodging
-    }
-
-    pState playerState;
 
 
     // Start is called before the first frame update
@@ -56,21 +36,9 @@ public class MovementController : MonoBehaviour
     {
         //movement code
 
-
         //objectPosition += velocity;
 
         SetLookDirection();
-
-
-        //health stuff
-
-        //goes through the list of enemy bullets and their colliders to check if any have hit the player
-        //foreach (GameObject bullet in manager.EnemyBulletsList)
-        //{
-            //if (pCollider.IsTouching(bullet.GetComponent<BoxCollider2D>()) || 
-                //bullet.GetComponent<BoxCollider2D>().IsTouching(pCollider)) 
-            //{ health--; }
-        //}
 
 
         //transform.position = objectPosition;
@@ -104,17 +72,6 @@ public class MovementController : MonoBehaviour
         }
         //velocity = newDirection * speed * Time.deltaTime;
         velocity = newMoveDirection * speed;
-    }
-
-    //activates the dodge which will move you quickly while making you harder to hit
-    public void Dodge()
-    {
-        //reminder to fix dodging and make it more smooth and an actual dodge
-        //objectPosition += direction * dSpeed * Time.deltaTime;
-
-        //playerState = pState.dodging;
-
-        //pCollider.size = pCollider.size / 2;
     }
 
     private void OnDrawGizmos()

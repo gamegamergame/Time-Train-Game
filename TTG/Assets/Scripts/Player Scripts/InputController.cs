@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.LowLevel;
 
 public class InputController : MonoBehaviour
 {
@@ -38,7 +35,7 @@ public class InputController : MonoBehaviour
     }
     public void OnBT(InputAction.CallbackContext context)
     {
-        manager.BulletTime();
+        playerManager.BulletTime();
     }
 
     public void OnPickup(InputAction.CallbackContext context)

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -11,11 +10,30 @@ public class PlayerManager : MonoBehaviour
 
 
     //Health Points
+    //TODO: Implement Taking Damage
     [SerializeField]
     int health = 3;
     public int Health { get { return health; } }
     
     private BoxCollider2D playerCollider;
+
+
+    //Bullet time
+    [Header("Bullet Time")]
+
+    [SerializeField]
+    float totalBulletTime = 5.0f;
+    float remainingBulletTime;
+
+    [SerializeField]
+    float BTMultiplier = 0.5f;
+
+    [SerializeField]
+    float BTCooldown = 2.0f;
+
+    bool isBTActive = false;
+
+    public float BulletTimeUI { get { return remainingBulletTime; } }
 
 
     //Pickup and Drop Throwable Items
@@ -25,8 +43,9 @@ public class PlayerManager : MonoBehaviour
 
     private float pickupDropStart;
 
+    [Space]
     [SerializeField]
-    private float pickupDropDelay = 0.25f;
+    private float pickupDropCooldown = 0.25f;
 
 
 
@@ -39,8 +58,11 @@ public class PlayerManager : MonoBehaviour
         movementController = GetComponent<MovementController>();
         playerAttacks = GetComponent<PlayerAttacks>();
 
-        pickupDropStart = pickupDropDelay;
+        remainingBulletTime = totalBulletTime;
+
+        pickupDropStart = pickupDropCooldown;
     }
+
 
     // Update is called once per frame
     void Update()
@@ -52,10 +74,11 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("You are dead");
         }
 
+        //Pickup/Drop Cooldown so you can't just spam pickup
         if (pickupDropStart <= 0)
         {
             canPickupDrop = true;
-            pickupDropStart = pickupDropDelay;
+            pickupDropStart = pickupDropCooldown;
         }
 
         if (!canPickupDrop)
@@ -63,7 +86,44 @@ public class PlayerManager : MonoBehaviour
             pickupDropStart -= Time.deltaTime;
         }
 
+
+        //starts bullet time cooldown
+        //source: https://www.youtube.com/watch?v=0VGosgaoTsw
+        if (isBTActive)
+        {
+            remainingBulletTime -= Time.deltaTime / BTMultiplier;
+            remainingBulletTime = Mathf.Clamp(remainingBulletTime, 0f, 999f);
+
+            //gradually returns the timescale back to normal
+            if (remainingBulletTime == 0)
+            {
+                Time.timeScale += (1f / BTCooldown) * Time.unscaledDeltaTime;
+                Time.timeScale = Mathf.Clamp01(Time.timeScale);
+
+                //when time scale is back to normal return fixed delta time back to normal and turn off BT
+                if (Time.timeScale == 1)
+                {
+                    Time.fixedDeltaTime = 0.02f;
+                    isBTActive = false;
+                    remainingBulletTime = totalBulletTime;
+                }
+            }
+        }
     }
+
+
+    //slows down the game by a certain factor while still allowing the player to aim at normal speed
+    //has a cooldown
+    public void BulletTime()
+    {
+        if (!isBTActive)
+        {
+            isBTActive = true;
+            Time.timeScale = BTMultiplier;
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        }
+    }
+
 
     //When the player picks up an item the item is attached to the player
     //When the player drops an item they are holding it falls back on the floor and can be picked up again
@@ -87,9 +147,7 @@ public class PlayerManager : MonoBehaviour
 
 
                     //always picks up the first collider added to the list
-
                     throwableItemCols[0].transform.SetParent(gameObject.transform, true);
-
                     throwableItemCols[0].transform.position = gameObject.transform.position;
                     throwableItemCols[0].transform.rotation = gameObject.transform.rotation;
 
@@ -111,13 +169,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Player loses health when hit by an enemy
-        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Bullets")))
-        {
-            health--;
-            Destroy(collision.gameObject);
-        }
+        //TODO: Implement Taking Damage
     }
 }

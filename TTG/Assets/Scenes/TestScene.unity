@@ -1568,9 +1568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9009d0817f0884ba84c55c70d2a9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowTimeFloat: 0.05
-  BTCooldown: 2
-  remainingBulletTime: 5
 --- !u!4 &1282066127
 Transform:
   m_ObjectHideFlags: 0
@@ -1615,7 +1612,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   health: 3
-  pickupDropDelay: 0.25
+  totalBulletTime: 5
+  BTMultiplier: 0.5
+  BTCooldown: 2
+  pickupDropCooldown: 0.25
 --- !u!1 &1479685351
 GameObject:
   m_ObjectHideFlags: 0
