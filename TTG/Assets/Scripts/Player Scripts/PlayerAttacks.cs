@@ -26,6 +26,20 @@ public class PlayerAttacks : MonoBehaviour
     public ThrowableItem ThrowableItem { get { return item; } set { item = value; } }
 
 
+    //Heavy Charge Throw
+    [SerializeField]
+    private float maxHeavyThrowCharge;
+
+    [SerializeField]
+    private float heavyThrowChargeRate;
+
+    [SerializeField]
+    private float heavyThrowChargePower;
+
+    private bool isHoldingHeavyAttack = false;
+
+
+
     [Header("Light Attack")]
     //Light Attack hurt box
     [SerializeField]
@@ -65,6 +79,8 @@ public class PlayerAttacks : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        heavyThrowChargePower = Mathf.Clamp(heavyThrowChargePower, 0f, maxHeavyThrowCharge);
+
         lightAtkStart = lightAtkCooldown;
         heavyAtkStart = heavyAtkCooldown;
 
@@ -96,6 +112,27 @@ public class PlayerAttacks : MonoBehaviour
         {
             item.gameObject.transform.position = gameObject.transform.position;
             item.gameObject.transform.rotation = gameObject.transform.rotation;
+
+            //if is holding attack
+            if (isHoldingHeavyAttack)
+            {
+                heavyThrowChargePower += heavyThrowChargeRate;
+
+                /*if ()
+                {
+                    item.Throw(heavyThrowChargePower);
+
+                    heavyThrowChargePower = 0f;
+                    isHoldingItem = false;
+                }*/
+            }
+            else
+            {
+                //item.Throw(heavyThrowChargePower);
+
+                //heavyThrowChargePower = 0f;
+                //isHoldingItem = false;
+            }
         }
     }
 
@@ -109,21 +146,26 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (canAtk)
         {
+            //Throwing a throwable item
             if (isHoldingItem)
             {
                 switch (attackType)
                 {
                     case "Light":
                         print("Light Throw");
-                        item.Throw();
+                        item.Throw(0);
+                        isHoldingItem = false;
                         break;
 
                     case "Heavy":
                         print("Heavy Throw");
-                        item.Throw();
+                        isHoldingHeavyAttack = true;
+                        //TODO: Make a heavy throw function that changes the force of the throw based on how long the player charges the attack
+                        //item.Throw(heavyThrowChargePower);
                         break;
                 }
-                isHoldingItem = false;
+                //isHoldingHeavyAttack = false;
+                //isHoldingItem = false;
             }
             else
             {

@@ -26,11 +26,17 @@ public class ThrowableItem : MonoBehaviour
 
     }
 
-    public void Throw()
+    /// <summary>
+    /// Light throw 
+    /// Heavy Throw that changes the force of the throw based on how long the player charges the attack
+    /// </summary>
+    /// <param name="power"></param>
+    public void Throw(float heavyAttackPower)
     {
         gameObject.transform.parent = null;
 
-        rb.AddForce(transform.up * throwForce, ForceMode2D.Impulse);
+        //If the player does a light throw the heavy attack power will be zero
+        rb.AddForce(transform.up * (throwForce + heavyAttackPower), ForceMode2D.Impulse);
         rb.AddTorque(throwSpinForce);
 
         isThrown = true;
